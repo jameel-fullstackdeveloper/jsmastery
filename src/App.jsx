@@ -3,6 +3,7 @@ import { useEffect,useState } from 'react';
 import './App.css'
 import SearchIcon from './assets/search.svg';
 import MovieCard from './Moviecard';
+import Loading from './Loading';
 
 export default function App () {
 
@@ -10,12 +11,17 @@ export default function App () {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchMovies = async (title) => {
+    setIsLoading(true);
+
     const response = await fetch(`${API_URL}&s=${title}`);
     const result = await response.json();
 
     setMovies(result.Search)
+
+    setIsLoading(false)   // Hide loading screen
   }
 
   useEffect( () => {
@@ -41,10 +47,12 @@ export default function App () {
         />
       </div>
 
+     
+
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} key={movie.imdbID} />
           ))}
         </div>
       ) : (
