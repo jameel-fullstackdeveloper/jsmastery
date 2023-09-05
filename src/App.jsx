@@ -35,22 +35,36 @@ export default function App () {
       <h1>MovieLand</h1>
 
       <div className="search">
-        <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search for movies"
-        />
-        <img
+
+      <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search for movies"
+            />
+
+        {isLoading  ?  
+
+          (
+           <Loading/>
+          )
+         : ( 
+          <img
           src={SearchIcon}
           alt="search"
           onClick={() => searchMovies(searchTerm)}
         />
+        )
+        }
+
+       
       </div>
 
      
 
       {movies?.length > 0 ? (
+
         <div className="container">
+        
           {movies.map((movie) => (
             <MovieCard movie={movie} key={movie.imdbID} />
           ))}
